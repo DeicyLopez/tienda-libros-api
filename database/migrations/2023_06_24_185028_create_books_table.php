@@ -16,7 +16,7 @@ return new class extends Migration
             $table->bigInteger('category_id');
             $table->string('book_name');
             $table->string('book_author');
-            $table->string('book_description');
+            $table->string('book_description', 3000);
             $table->string('book_image');
             $table->timestamps();
 
