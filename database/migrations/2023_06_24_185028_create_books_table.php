@@ -16,7 +16,6 @@ return new class extends Migration
             $table->bigInteger('category_id')->unsigned();
             $table->bigInteger('author_id')->unsigned();
             $table->string('book_name');
-            $table->string('book_author');
             $table->string('book_description', 3000);
             $table->string('book_image');
             $table->timestamps();

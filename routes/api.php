@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\v1\BookController;
+use App\Http\Controllers\Api\v1\AuthorController;
+use App\Http\Controllers\Api\v1\Auth\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,17 +17,19 @@ use App\Http\Controllers\Api\v1\BookController;
 |
 */
 
-Route::prefix('v1')->group( function () {
-    Route::get('saludo', function() {
-        return response()->json([
-            'success' => true,
-            'data' => [
-                'name'=>'Mario',
-                'email'=>'mario@gmail.com',
-                'age' => 25,
-            ]
-        ]);
-    });
 
+Route::prefix('v1')->group( function () {
+    #---------------Auth----------------#
+    Route::post('register', [AuthController::class,'register']);
+    Route::Post('login', [AuthController::class, 'login']);
+
+    Route::group(['middleware' => 'jwt.auth'], function() {
+
+        Route::post('me', [AuthController::class,'me']);
+        Route::Post('logout', [AuthController::class, 'logout']);
+    });
+    
+    #------------------Books----------------------------#
    Route::apiResource('books',BookController::class);
+   Route::apiResource('authors', AuthorController::class);
 });

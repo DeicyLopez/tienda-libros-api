@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class AuthorSeeder extends Seeder
 {
@@ -54,5 +55,7 @@ class AuthorSeeder extends Seeder
                 'description' => 'William Shakespeare ​ fue un dramaturgo, poeta y actor inglés. Conocido en ocasiones como el Bardo de Avon, se le considera el escritor más importante en lengua inglesa y uno de los más célebres de la literatura universal.​', 
             ]
         ];
+
+        DB::table('authors')->insert($author);
     }
 }

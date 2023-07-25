@@ -7,73 +7,53 @@ use App\Models\Book;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
-use App\Http\Controllers\Controller;
 use App\Http\Requests\SaveBookRequest;
+use App\Http\Controllers\Api\v1\Controller;
 
 class BookController extends Controller
 {
     public function index()
     {
-        try {
             $books = Book::all();
 
             return response()->json(['success' => true, 'data' => $books]);
-        } catch (Exception $e) {
-            Log::error($e->getMessage() . ' line: ' . $e->getline() . 'file: ' . $e->getFile());
-
-            return response()->json([
-                'success' => false,
-                'message' => 'Error de servidor',
-                'info' => [
-                    'info error' => $e->getMessage(),
-                    'file' => $e->getFile(),
-                    'line' => $e->getLine(),
-                ]
-            ], Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
     }
 
     public function show($id)
     {
         $book = Book::find($id);
 
-        if (empty($book)) {
-            return response()->json(['success' => false, 'message' => 'El libro no existe.'], Response::HTTP_NOT_FOUND);
-        }
-
-        return response()->json(['success' => true, 'data' => $book]);
+        return $this->checkModelExists(function () use ($book) {
+            return response()->json(['success' => true, 'data' => $book]);
+        }, $book, trans('messages.book.not_found'));
     }
 
     public function store(SaveBookRequest $request)
     {
         $book = Book::create($request->all());
 
-        return response()->json(['success' => true, 'message' => 'Libro creado con éxito', 'data' => $book]);
+        return response()->json(['success' => true, 'message' => trans('messages.book.created'), 'data' => $book]);
     }
 
     public function update(SaveBookRequest $request, $id)
     {
         $book = Book::find($id);
 
-        if (empty($book)) {
-            return response()->json(['success' => false, 'message' => 'El libro no existe.'], Response::HTTP_NOT_FOUND);
-        }
-
+        return $this->checkModelExists(function () use ($book, $request) {
         $book->update($request->all());
 
-        return response()->json(['success' => true, 'message' => 'Libro actualizado con éxito.', 'data' => $book]);
-    } 
+        return response()->json(['success' => true, 'message' => trans('messages.book.updated'), 'data' => $book]);
+        }, $book, 'el libro no existe');
+    }
 
     public function destroy($id)
     {
         $book = Book::find($id);
 
-        if (empty($book)) {
-            return response()->json(['success' => false, 'message' => 'El libro no existe.'], Response::HTTP_NOT_FOUND);
-        }
-
+        return $this->checkModelExists(function () use ($book) {
         $book->delete();
 
         return response()->json(null, Response::HTTP_NO_CONTENT);
+        }, $book, 'el libro no existe');
     }
 }
