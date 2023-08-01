@@ -11,7 +11,7 @@ class SaveAuthorRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,8 @@ class SaveAuthorRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //en la pagina 28, continuo
+            'name' => 'required|string|max:255',
+            'description' => 'required|string|max:3000',
         ];
     }
 }

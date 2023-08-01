@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\v1\Auth\CategoriesController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\v1\BookController;
@@ -32,4 +33,5 @@ Route::prefix('v1')->group( function () {
     #------------------Books----------------------------#
    Route::apiResource('books',BookController::class);
    Route::apiResource('authors', AuthorController::class);
+   Route::apiResource('categories', CategoriesController::class);
 });

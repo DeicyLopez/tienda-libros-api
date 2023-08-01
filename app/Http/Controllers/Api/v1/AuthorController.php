@@ -7,6 +7,8 @@ use App\Models\Author;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
+use App\Http\Requests\SaveAuthorRequest;
+
 
 class AuthorController extends Controller
 {
@@ -41,14 +43,14 @@ class AuthorController extends Controller
         }, $author, trans('messages.author.not_found'));
     }
 
-    public function store(Request $request)
+    public function store(SaveAuthorRequest $request)
     {
         $author  = Author::create($request->all());
 
         return response()->json(['success' => true, 'message' => trans('messages.author.created'), 'data' => $author]);
     }
 
-    public function update(Request $request, $id)
+    public function update(SaveAuthorRequest  $request, $id)
     {
         $author = Author::find($id);
 
