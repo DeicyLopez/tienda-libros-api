@@ -2,10 +2,11 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-class Literary_GenreSeeder extends Seeder
+class LiteraryGenreSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -30,5 +31,7 @@ class Literary_GenreSeeder extends Seeder
                 'description' => 'En este género, la principal función es la enseñanza o la divulgación de ideas.',
             ],
         ];
+
+        DB::table('literary_genres')->insert($literary_genre);
     }
 }

@@ -5,7 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Book_Literary extends Model
+class Book_LiteraryGenre
+ extends Model
 {
     use HasFactory;
     
@@ -14,7 +15,7 @@ class Book_Literary extends Model
 
     public function literary_genres()
     {
-        return $this->belongsTo(Literary_Genre::class);
+        return $this->hasMany(Literary_Genre::class);
     }
 
     public function book()
